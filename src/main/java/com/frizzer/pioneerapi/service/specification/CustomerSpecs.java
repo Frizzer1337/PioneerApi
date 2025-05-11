@@ -2,7 +2,6 @@ package com.frizzer.pioneerapi.service.specification;
 
 import com.frizzer.pioneerapi.domain.entity.Customer;
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -30,20 +29,6 @@ public class CustomerSpecs {
         return (root, query, builder) -> checkNull(builder.equal(root.get("emailData").get("email"), email),
                 builder,
                 email);
-    }
-
-    public static Specification<Customer> fetchEmail() {
-        return (root, query, builder) -> {
-            root.fetch("emailData", JoinType.INNER);
-            return builder.conjunction();
-        };
-    }
-
-    public static Specification<Customer> fetchPhone() {
-        return (root, query, builder) -> {
-            root.fetch("phoneData", JoinType.INNER);
-            return builder.conjunction();
-        };
     }
 
     private static Predicate checkNull(Predicate predicate, CriteriaBuilder builder, Object param) {
