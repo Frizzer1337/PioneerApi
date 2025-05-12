@@ -16,15 +16,16 @@ public class PhoneService {
 
     public PhoneService(PhoneRepository repository) {this.repository = repository;}
 
+    @Transactional
     public void save(String phone, long customerId) {
         if (repository.existsByPhoneNumber(phone)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Номер уже занят");
         }
-        PhoneData phoneData = new PhoneData().withPhoneNumber(phone)
-                                             .withCustomer(new Customer().withId(customerId));
+        PhoneData phoneData = new PhoneData().withPhoneNumber(phone).withCustomer(new Customer().withId(customerId));
         repository.save(phoneData);
     }
 
+    @Transactional
     public void update(PhoneUpdateDto dto, long customerId) {
         PhoneData oldPhone = repository.findByPhoneNumberAndCustomer_Id(dto.getOldPhone(), customerId)
                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -40,10 +41,10 @@ public class PhoneService {
 
     @Transactional
     public void delete(String email, long customerId) {
-        PhoneData data = repository.findByPhoneNumberAndCustomer_Id(email,customerId)
+        PhoneData data = repository.findByPhoneNumberAndCustomer_Id(email, customerId)
                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                                            "Номер не найден"));
-        if(data.getCustomer().getPhoneData().size() == 1){
+        if (data.getCustomer().getPhoneData().size() == 1) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Нельзя удалить единственный номер");
         }
         repository.delete(data);

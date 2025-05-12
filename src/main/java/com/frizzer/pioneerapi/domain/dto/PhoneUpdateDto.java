@@ -8,11 +8,13 @@ import lombok.Data;
 @Data
 public class PhoneUpdateDto {
     @Schema(description = "Телефон пользователя", example = "7XXXXXXXXXXXX")
-    @Pattern(regexp = "^7\\d{12}$", message = "Телефон пользователя должен быть 13 символов в длину, иметь формат 7XXXXXXXXXXXX")
+    @Pattern(regexp = "^7\\d{12}$",
+             message = "Телефон пользователя должен быть 13 символов в длину, иметь формат 7XXXXXXXXXXXX")
     @NotNull
     private String oldPhone;
     @Schema(description = "Телефон пользователя", example = "7XXXXXXXXXXXX")
-    @Pattern(regexp = "^7\\d{12}$", message = "Телефон пользователя должен быть 13 символов в длину, иметь формат 7XXXXXXXXXXXX")
+    @Pattern(regexp = "^7\\d{12}$",
+             message = "Телефон пользователя должен быть 13 символов в длину, иметь формат 7XXXXXXXXXXXX")
     @NotNull
     private String newPhone;
 }

@@ -4,7 +4,7 @@ import com.frizzer.pioneerapi.domain.dto.PhoneDto;
 import com.frizzer.pioneerapi.domain.dto.PhoneUpdateDto;
 import com.frizzer.pioneerapi.domain.entity.Customer;
 import com.frizzer.pioneerapi.service.AuthService;
-import com.frizzer.pioneerapi.service.PhoneService;
+import com.frizzer.pioneerapi.service.cache.PhoneCachedService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/phone")
 public class PhoneController {
 
-    private final PhoneService service;
+    private final PhoneCachedService service;
 
-    public PhoneController(PhoneService service) {this.service = service;}
+    public PhoneController(PhoneCachedService service) {this.service = service;}
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody @Valid PhoneDto data) {
         Customer customer = AuthService.getPrincipal();
-        service.save(data.getPhone(),customer.getId());
+        service.save(data.getPhone(), customer.getId());
         return ResponseEntity.ok("Номер успешно добавлен");
     }
 
@@ -39,7 +39,7 @@ public class PhoneController {
     @DeleteMapping
     public ResponseEntity<String> delete(@RequestBody @Valid PhoneDto data) {
         Customer customer = AuthService.getPrincipal();
-        service.delete(data.getPhone(),customer.getId());
+        service.delete(data.getPhone(), customer.getId());
         return ResponseEntity.ok("Номер успешно удален");
     }
 }

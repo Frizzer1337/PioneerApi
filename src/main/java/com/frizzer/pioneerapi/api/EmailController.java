@@ -4,7 +4,7 @@ import com.frizzer.pioneerapi.domain.dto.EmailDto;
 import com.frizzer.pioneerapi.domain.dto.EmailUpdateDto;
 import com.frizzer.pioneerapi.domain.entity.Customer;
 import com.frizzer.pioneerapi.service.AuthService;
-import com.frizzer.pioneerapi.service.EmailService;
+import com.frizzer.pioneerapi.service.cache.EmailCachedService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/email")
 public class EmailController {
 
-    private final EmailService service;
+    private final EmailCachedService service;
 
-    public EmailController(EmailService service) {this.service = service;}
+    public EmailController(EmailCachedService service) {this.service = service;}
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody @Valid EmailDto data) {
@@ -39,7 +39,7 @@ public class EmailController {
     @DeleteMapping
     public ResponseEntity<String> delete(@RequestBody @Valid EmailDto data) {
         Customer customer = AuthService.getPrincipal();
-        service.delete(data.getEmail(),customer.getId());
+        service.delete(data.getEmail(), customer.getId());
         return ResponseEntity.ok("Email успешно удален");
     }
 

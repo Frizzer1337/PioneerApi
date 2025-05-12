@@ -59,7 +59,7 @@ public class AppConfig {
     @Bean
     UserDetailsService userDetailsService() {
         return id -> customerRepository.findById(Long.valueOf(id))
-                                             .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+                                       .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
 
     }
 }

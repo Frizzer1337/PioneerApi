@@ -16,6 +16,7 @@ public class EmailService {
 
     public EmailService(EmailRepository repository) {this.repository = repository;}
 
+    @Transactional
     public void save(String email, long customerId) {
         if (repository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email уже занят");
@@ -24,6 +25,7 @@ public class EmailService {
         repository.save(emailData);
     }
 
+    @Transactional
     public void update(EmailUpdateDto dto, long customerId) {
         EmailData oldEmail = repository.findByEmailAndCustomer_Id(dto.getOldEmail(), customerId)
                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -39,10 +41,10 @@ public class EmailService {
 
     @Transactional
     public void delete(String email, long customerId) {
-        EmailData data = repository.findByEmailAndCustomer_Id(email,customerId)
+        EmailData data = repository.findByEmailAndCustomer_Id(email, customerId)
                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                                            "Email не найден"));
-        if(data.getCustomer().getEmailData().size() == 1){
+        if (data.getCustomer().getEmailData().size() == 1) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Нельзя удалить единственный Email");
         }
         repository.delete(data);

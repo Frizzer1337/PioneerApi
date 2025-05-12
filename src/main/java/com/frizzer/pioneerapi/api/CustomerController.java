@@ -5,8 +5,8 @@ import com.frizzer.pioneerapi.domain.dto.CustomerLoginDto;
 import com.frizzer.pioneerapi.domain.dto.LoginResponseDto;
 import com.frizzer.pioneerapi.domain.entity.Customer;
 import com.frizzer.pioneerapi.service.AuthService;
-import com.frizzer.pioneerapi.service.CustomerService;
 import com.frizzer.pioneerapi.service.JwtService;
+import com.frizzer.pioneerapi.service.cache.CustomerCachedService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,12 +27,12 @@ public class CustomerController {
 
     private final AuthService authService;
     private final JwtService jwtService;
-    private final CustomerService customerService;
+    private final CustomerCachedService service;
 
-    public CustomerController(AuthService authService, JwtService jwtService, CustomerService customerService) {
+    public CustomerController(AuthService authService, JwtService jwtService, CustomerCachedService service) {
         this.authService = authService;
         this.jwtService = jwtService;
-        this.customerService = customerService;
+        this.service = service;
     }
 
     @GetMapping("/filter")
@@ -43,7 +43,7 @@ public class CustomerController {
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "email", required = false) String email,
             Pageable pageable) {
-        return ResponseEntity.ok(customerService.filter(date, name, phone, email, pageable));
+        return ResponseEntity.ok(service.filter(date, name, phone, email, pageable));
     }
 
     @PostMapping("/login")
