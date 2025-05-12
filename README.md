@@ -9,21 +9,24 @@
 Шаг 1: Клонирование репозитория
 Клонируйте репозиторий с помощью следующей команды:
 
-git clone https://github.com/your-repository-url.git
-cd your-repository-folder
+`git clone https://github.com/your-repository-url.git`
+
+`cd your-repository-folder`
 
 Шаг 2: Настройка Docker
 Проект использует Docker и Docker Compose для развертывания PostgreSQL и Redis.
 
 Убедитесь, что Docker установлен на вашем компьютере. Для запуска всех зависимостей выполните команду:
 
-docker-compose up -d
-Это запустит контейнеры с PostgreSQL и Redis, необходимые для работы приложения.
+`docker-compose up -d`
+
+Это запустит контейнеры с PostgreSQL и Redis, необходимые для работы приложения и прогонит init.sql скрипт в котором инициализруются таблицы БД.
 
 Шаг 3: Запуск приложения
 Для запуска приложения на вашем локальном компьютере используйте InteliJ или Maven:
 
-mvn spring-boot:run
+`mvn spring-boot:run`
+
 Приложение будет доступно по адресу http://localhost:8080.
 
 Шаг 4: Swagger
