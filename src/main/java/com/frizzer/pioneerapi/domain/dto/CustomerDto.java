@@ -1,8 +1,6 @@
 package com.frizzer.pioneerapi.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.frizzer.pioneerapi.domain.entity.Account;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -15,10 +13,7 @@ public class CustomerDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate dateOfBirth;
     private String password;
-    @JsonManagedReference
     private List<PhoneDto> phones;
-    @JsonManagedReference
     private List<EmailDto> emails;
-    @JsonManagedReference
-    private Account account;
+    private AccountDto account;
 }

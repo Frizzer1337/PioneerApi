@@ -5,7 +5,7 @@ import com.frizzer.pioneerapi.domain.entity.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {EmailMapper.class, PhoneMapper.class})
+@Mapper(componentModel = "spring", uses = {EmailMapper.class, PhoneMapper.class, AccountMapper.class})
 public interface CustomerMapper {
 
     @Mapping(source = "phoneData", target = "phones")

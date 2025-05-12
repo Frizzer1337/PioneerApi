@@ -1,6 +1,5 @@
 package com.frizzer.pioneerapi.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +23,6 @@ public class Account {
     private long id;
     @OneToOne
     @JoinColumn(nullable = false)
-    @JsonBackReference
     private Customer customer;
     @Column(nullable = false)
     private BigDecimal balance;

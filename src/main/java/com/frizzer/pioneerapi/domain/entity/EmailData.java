@@ -1,6 +1,5 @@
 package com.frizzer.pioneerapi.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +25,6 @@ public class EmailData {
     private long id;
     @ManyToOne
     @JoinColumn(nullable = false)
-    @JsonBackReference
     private Customer customer;
     @Column(nullable = false, unique = true)
     private String email;

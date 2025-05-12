@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.frizzer.pioneerapi.service.cache.CacheNames.CUSTOMERS;
+
 @Service
 public class CustomerCachedService {
 
@@ -16,7 +18,7 @@ public class CustomerCachedService {
 
     public CustomerCachedService(CustomerService customerService) {this.customerService = customerService;}
 
-    @Cacheable(value = "customers",
+    @Cacheable(value = CUSTOMERS,
                key = "T(String).format('b=%s;n=%s;p=%s;e=%s;pg=%d;sz=%d', #begin, #name, #phone, #email, #pageable.pageNumber, #pageable.pageSize)")
     public List<CustomerDto> filter(LocalDate begin, String name, String phone, String email, Pageable pageable) {
         return customerService.filter(begin, name, phone, email, pageable);

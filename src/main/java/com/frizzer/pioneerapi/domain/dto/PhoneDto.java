@@ -7,9 +7,9 @@ import lombok.Data;
 
 @Data
 public class PhoneDto {
-    @Schema(description = "Телефон пользователя", example = "7XXXXXXXXXXXX")
+    @Schema(description = "Номер пользователя", example = "7XXXXXXXXXXXX")
     @Pattern(regexp = "^7\\d{12}$",
-             message = "Телефон пользователя должен быть 13 символов в длину, иметь формат 7XXXXXXXXXXXX")
-    @NotNull
+             message = "Номер пользователя должен быть 13 символов в длину, иметь формат 7XXXXXXXXXXXX")
+    @NotNull(message = "Номер не должен быть пустым")
     private String phone;
 }

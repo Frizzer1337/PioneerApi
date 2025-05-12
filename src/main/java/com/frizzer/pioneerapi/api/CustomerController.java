@@ -3,9 +3,11 @@ package com.frizzer.pioneerapi.api;
 import com.frizzer.pioneerapi.domain.dto.CustomerDto;
 import com.frizzer.pioneerapi.domain.dto.CustomerLoginDto;
 import com.frizzer.pioneerapi.domain.dto.LoginResponseDto;
+import com.frizzer.pioneerapi.domain.dto.TransferDto;
 import com.frizzer.pioneerapi.domain.entity.Customer;
 import com.frizzer.pioneerapi.service.AuthService;
 import com.frizzer.pioneerapi.service.JwtService;
+import com.frizzer.pioneerapi.service.cache.AccountCachedService;
 import com.frizzer.pioneerapi.service.cache.CustomerCachedService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,11 +31,16 @@ public class CustomerController {
     private final AuthService authService;
     private final JwtService jwtService;
     private final CustomerCachedService service;
+    private final AccountCachedService accountService;
 
-    public CustomerController(AuthService authService, JwtService jwtService, CustomerCachedService service) {
+    public CustomerController(AuthService authService,
+                              JwtService jwtService,
+                              CustomerCachedService service,
+                              AccountCachedService accountService) {
         this.authService = authService;
         this.jwtService = jwtService;
         this.service = service;
+        this.accountService = accountService;
     }
 
     @GetMapping("/filter")
@@ -44,6 +52,13 @@ public class CustomerController {
             @RequestParam(value = "email", required = false) String email,
             Pageable pageable) {
         return ResponseEntity.ok(service.filter(date, name, phone, email, pageable));
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transfer(@RequestBody @Valid TransferDto transferDto) {
+        Customer customer = AuthService.getPrincipal();
+        BigDecimal remainder = accountService.transfer(customer.getId(), transferDto.getId(), transferDto.getAmount());
+        return ResponseEntity.ok("Трансфер успешно совершен, на вашем счету осталось: " + remainder);
     }
 
     @PostMapping("/login")

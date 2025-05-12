@@ -3,8 +3,10 @@ package com.frizzer.pioneerapi.config;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,11 +25,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    public ResponseEntity<String> handleHttpMessageNotReadableException() {
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                             .body("Не поддерживаемый тип контента: " + e.getHttpInputMessage()
-                                                                         .getHeaders()
-                                                                         .getContentType());
+                             .body("Необходимый тип: " + MediaType.APPLICATION_JSON_VALUE);
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<String> handleHttpMediaTypeNotSupportedException() {
+        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                             .body("Необходимый тип: " + MediaType.APPLICATION_JSON_VALUE);
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
