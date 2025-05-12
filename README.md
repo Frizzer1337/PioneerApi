@@ -9,7 +9,7 @@
 Шаг 1: Клонирование репозитория
 Клонируйте репозиторий с помощью следующей команды:
 
-`git clone https://github.com/your-repository-url.git`
+`git clone https://github.com/Frizzer1337/PioneerApi.git`
 
 `cd your-repository-folder`
 
